@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>dbExp</title>
+    <!-- <script src="./jquery.min.js"></script>
+    <script src="./bootstrap.min.js"></script> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+    <script>
+        window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');
+        require('../node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
+  </head>
+  <body>
+    <br><br>
+    <h2 align="center">简易成绩管理</h1>
+    <div class="container" align="center">
+      <div class="row">
+          <button class="btn-primary col-md-4" id="addstudent">
+            <span class="glyphicon glyphicon-plus"></span>
+            添加学生
+          </button>
+          <button class="btn-primary col-md-4" id="addcourse">
+            <span class="glyphicon glyphicon-plus"></span>
+            添加课程
+          </button>
+          <button class="btn-primary col-md-4" id="addgrade">
+            <span class="glyphicon glyphicon-plus"></span>
+            添加成绩
+          </button>
+      </div>
+      <div class="row">
+          
+          <button class="btn-primary col-md-4" id="deletestudent">
+            <span class="glyphicon glyphicon-remove"></span>
+            删除学生
+          </button>
+          <button class="btn-primary col-md-4" id="deletecourse">
+            <span class="glyphicon glyphicon-remove"></span>
+            删除课程
+          </button>
+          <button class="btn-primary col-md-4" id="deletegrade">
+            <span class="glyphicon glyphicon-remove"></span>
+            删除成绩
+          </button>
+      </div>
+      <div class="row">
+          <button class="btn-primary col-md-4" id="findstudent">
+            <span class="glyphicon glyphicon-search"></span>
+            查询学生
+          </button>
+          <button class="btn-primary col-md-4" id="findcourse">
+            <span class="glyphicon glyphicon-search"></span>
+            查询课程
+          </button>
+          <button class="btn-primary col-md-4" id="findgrade">
+            <span class="glyphicon glyphicon-search"></span>
+            查询成绩
+          </button>
+      </div>
+      <div class="row">
+          <button class="btn-primary col-md-4" id="updatestudent">
+            <span class="glyphicon glyphicon-edit"></span>
+            修改学生
+          </button>
+          <button class="btn-primary col-md-4" id="updatecourse">
+            <span class="glyphicon glyphicon-edit"></span>
+            修改课程
+          </button>
+          <button class="btn-primary col-md-4" id="updategrade">
+            <span class="glyphicon glyphicon-edit"></span>
+            修改成绩
+          </button>
+
+      </div>
+    </div>
+
+  </body>
+  <script>
+    document.title="简易学生管理";
+    const button = document.getElementsByClassName("btn-primary")
+    const ipc = require('electron').ipcRenderer
+    button[0].onclick=()=>{ipc.send("subwin",button[0].id);}
+    button[1].onclick=()=>{ipc.send("subwin",button[1].id);}
+    button[2].onclick=()=>{ipc.send("subwin",button[2].id);}
+    button[3].onclick=()=>{ipc.send("subwin",button[3].id);}
+    button[4].onclick=()=>{ipc.send("subwin",button[4].id);}
+    button[5].onclick=()=>{ipc.send("subwin",button[5].id);}
+    button[6].onclick=()=>{ipc.send("subwin",button[6].id);}
+    button[7].onclick=()=>{ipc.send("subwin",button[7].id);}
+    button[8].onclick=()=>{ipc.send("subwin",button[8].id);}
+    button[9].onclick=()=>{ipc.send("subwin",button[9].id);}
+    button[10].onclick=()=>{ipc.send("subwin",button[10].id);}
+    button[11].onclick=()=>{ipc.send("subwin",button[11].id);}
+    
+  </script>
+</html>

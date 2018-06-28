@@ -1,0 +1,175 @@
+CREATE DATABASE IF NOT EXISTS stdb;
+use stdb;
+DROP TABLE IF EXISTS SC;
+DROP TABLE IF EXISTS C;
+DROP TABLE IF EXISTS S;
+CREATE TABLE S
+(
+    Sno int NOT NULL PRIMARY KEY CHECK(Sno > 0),
+    Sname varchar(40) NOT NULL,
+    Ssex bool,
+    Sage integer(3),
+    Sdept integer(2)
+);
+
+CREATE TABLE C
+(
+    Cno int NOT NULL PRIMARY KEY CHECK(Cno > 0),
+    Cname varchar(40) NOT NULL,
+    Cpno int,
+    Ccredit numeric(2,1) NOT NULL
+);
+
+CREATE TABLE SC
+(
+    Sno int,
+    Cno int,
+    Grade numeric(3,1),
+    check(Grade >= 0),
+    PRIMARY KEY(Sno,Cno),
+    FOREIGN KEY (Cno) REFERENCES C(Cno),
+    FOREIGN KEY (Sno) REFERENCES S(Sno)
+);
+
+DROP PROCEDURE if EXISTS add_testS_data;
+DELIMITER //
+    CREATE PROCEDURE add_testS_data()
+    BEGIN
+        DECLARE num int;
+        DECLARE sex char(1);
+        DECLARE age integer(3);
+        DECLARE dept integer(2);
+        SET num=1;
+        SET age=20;
+        SET dept=16;
+        WHILE (num<31) DO
+            SET sex=num mod 2;
+            INSERT into S values (concat('5201314',num),concat('name',num),sex,age,dept);
+            SET num=num+1;
+        END WHILE;
+
+    END //
+DELIMITER ;
+call add_testS_data();
+SELECT * FROM S;
+
+
+INSERT into C(Cno,Cname,Ccredit) values (1,'数据结构',3);
+INSERT into C(Cno,Cname,Ccredit) values (2,'数据库原理',3);
+INSERT into C(Cno,Cname,Ccredit) values (3,'操作系统',3);
+SELECT * FROM C;
+
+
+DROP PROCEDURE if EXISTS add_testSC_data;
+DELIMITER //
+    CREATE PROCEDURE add_testSC_data()
+    BEGIN
+        DECLARE i int;
+        DECLARE num int;
+        SET i=0;
+        WHILE (i<10) DO
+            SET num=i*3;
+            INSERT into SC values (concat('5201314',num+1),1,80+i);
+            INSERT into SC values (concat('5201314',num+2),2,80+i);
+            INSERT into SC values (concat('5201314',num+3),3,80+i);
+            SET i=i+1;
+        END WHILE;
+
+    END //
+DELIMITER ;
+call add_testSC_data();
+system echo "update"
+INSERT into SC values (520131415,1,90);
+INSERT into SC values (520131415,2,90);
+UPDATE SC SET Grade=90 WHERE Sno=520131415;
+UPDATE S SET Sname='piggy' WHERE Sno=520131415;
+SELECT * FROM SC;
+
+-- 2.1
+system echo "---------------2.1"
+SELECT S.Sno,S.Sname FROM SC,S WHERE SC.Cno=1 AND S.Sno=SC.Sno;
+
+-- 2.2
+system echo "---------------2.2"
+SELECT S.Sno,S.Sname FROM SC,S,C WHERE C.Cname='数据结构' AND SC.Cno=C.Cno AND S.Sno=SC.Sno;
+
+-- 2.3
+system echo "---------------2.3"
+SELECT S.Sno,S.Sname FROM SC,S WHERE SC.Cno<>1 AND S.Sno=SC.Sno
+GROUP BY S.Sno;
+
+-- 2.4
+system echo "---------------2.4"
+SELECT S.Sname FROM SC,S WHERE SC.Sno LIKE '%' AND S.Sno=SC.Sno
+GROUP BY SC.Sno;
+/*
+-- 2.5 
+system echo "---------------2.5"
+DROP TABLE IF EXISTS Ave_G;
+CREATE TABLE Ave_G
+(
+    Sno int FOREIGN KEY REFERENCES S(Sno),
+    Ave_Grade numeric(3,1) CHECK(Ave_Grade >= 0)
+)
+SELECT S.Sno,Ave_Grade FROM SC,S,Ave_G WHERE SC.Cno<>1 AND SC.Grade>60 AND S.Sno=SC.Sno AND Ave_G.Sno=SC.Sno
+order by Ave_Grade DESC;
+*/
+-- 2.6
+system echo "---------------2.6"
+SELECT S.Sname FROM SC,S,C WHERE C.Cname='数据库原理' AND SC.Cno=C.Cno AND S.Sno=SC.Sno
+order by SC.Grade DESC
+limit 1,1;
+
+-- 2.7
+system echo "---------------2.7"
+SELECT S.Sname FROM S WHERE Sno in
+(
+    SELECT Sno FROM SC,C
+        WHERE C.Ccredit=3
+        AND SC.Cno=C.Cno
+        AND SC.Grade>=80
+    group by Sno
+    HAVING count(Grade)>=3
+);
+
+-- 4.1
+system echo "---------------4.1"
+CREATE VIEW BoyStudent
+AS
+SELECT S.Sno,S.Sname,C.Cname,SC.Grade
+FROM S,SC,C
+WHERE S.Ssex=1
+AND SC.Sno=S.Sno
+AND C.Cno=SC.Cno;
+
+-- 4.2
+system echo "---------------4.2"
+SELECT Sno,Sname
+FROM BoyStudent
+group by Sno
+HAVING avg(Grade)>80;
+
+-- 5.1
+system echo "---------------5.1"
+SELECT Sno,count(Cno),avg(Grade)
+FROM SC
+WHERE Grade is NOT NULL
+GROUP BY Sno;
+
+-- 5.2
+system echo "---------------5.2"
+create user 'dbtest'@'localhost';
+grant all privileges on S to 'dbtest'@'localhost';
+show grants for 'dbtest'@'localhost';
+
+/*
+-- 5.3
+system echo "---------------5.3"
+DROP VIEW BoyStudent;
+DROP TABLE SC;
+DROP TABLE C;
+DROP TABLE S;
+DROP PROCEDURE add_testS_data;
+DROP DATABASE stdb;
+DROP user dbtest@localhost;
+*/

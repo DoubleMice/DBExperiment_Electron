@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script>
+        window.$ = window.jQuery = require('../../node_modules/jquery/dist/jquery.min.js');
+        require('../../node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h4 align="center">添加学生</h4>
+    <div class="container dboperation">
+        <div class="input-group">
+            <span class="input-group-addon">学号：</span>
+            <input id="Sno" type="text" class="form-control">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">姓名：</span>
+            <input id="Sname" type="text" class="form-control">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">性别：</span>
+            <input id="Ssex" type="text" class="form-control">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">年龄：</span>
+            <input id="Sage" type="text" class="form-control">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">院系：</span>
+            <input id="Sdept" type="text" class="form-control">
+        </div>
+        <div class="pull-right">
+            <button class="btn-primary" type="submit" id="submit">确定</button>
+        </div>
+    </div>
+</body>
+<script>
+    const submit = document.querySelector("#submit");
+    const ipc = require('electron').ipcRenderer;
+    console.log(submit);
+    submit.onclick=()=>
+    {
+        var Sno = document.getElementById("Sno").value;
+        var Sname = document.getElementById("Sname").value;
+        var Ssex = document.getElementById("Ssex").value;
+        var Sage = document.getElementById("Sage").value;
+        var Sdept = document.getElementById("Sdept").value;
+        console.log(Sno,Sname,Ssex,Sage,Sdept);
+        var result = ipc.sendSync("submit","addstudent",Sno,Sname,Ssex,Sage,Sdept);
+        if (result=="success") {
+            alert("添加成功");
+        } else {
+            alert("添加失败");
+        }
+    }
+</script>
+
+</html>

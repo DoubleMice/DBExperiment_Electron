@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script>
+        window.$ = window.jQuery = require('../../node_modules/jquery/dist/jquery.min.js');
+        require('../../node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h4 align="center">课程列表</h4>
+    <!-- <div class="container dboperation">
+        <div class="input-group">
+            <input id="Sno" type="text" class="form-control">
+            <span class="glyphicon glyphicon-search"></span>
+        </div>
+    </div> -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>课号</th>
+                <th>名称</th>
+                <th>学分</th>
+            </tr>
+        </thead>
+        <tbody id="list">
+        </tbody>
+    </table>
+</body>
+<script>
+    const ipc = require('electron').ipcRenderer;
+    var result = ipc.sendSync("submit","findcourse");
+    console.log(result);
+    var table = document.getElementById("list");
+    for (let index = 0; index < result.length; index++) {
+        var row = table.insertRow(-1);
+        row.insertCell(-1).innerHTML=result[index].Cno;
+        row.insertCell(-1).innerHTML=result[index].Cname;
+        row.insertCell(-1).innerHTML=result[index].Ccredit;
+    }
+</script>
+
+</html>

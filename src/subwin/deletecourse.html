@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script>
+        window.$ = window.jQuery = require('../../node_modules/jquery/dist/jquery.min.js');
+        require('../../node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h4 align="center">删除课程</h4>
+    <div class="container dboperation">
+        <div class="input-group">
+            <span class="input-group-addon">课号：</span>
+            <input id="Cno" type="text" class="form-control">
+        </div>
+        <div class="pull-right">
+            <button class="btn-primary" type="submit" id="submit">确定</button>
+        </div>
+    </div>
+</body>
+<script>
+    const submit = document.querySelector("#submit");
+    const ipc = require('electron').ipcRenderer;
+    console.log(submit);
+    submit.onclick=()=>
+    {
+        var Cno = document.getElementById("Cno").value;
+        console.log(Cno);
+        var result = ipc.sendSync("submit","deletecourse",Cno);
+        if (result=="success") {
+            alert("删除课程成功");
+        } else {
+            alert("删除课程失败");
+            // var msg='';
+            // for (let index = 0; index < result.length; index++) {
+            //     msg+=result[index];
+            // }
+            // alert(msg);
+            console.log(result);
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,79 @@
+body {
+    font: caption;
+    /* display: table; */
+    background-color: azure;
+    -webkit-app-region: drag;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 5%;
+    margin-left: 5%;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+         -o-user-select: none;
+            user-select: none;
+    color: #ffffff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10%;
+    /* display: table-cell; */
+    /* vertical-align: middle; */
+}
+@media (min-width: 768px) {
+.container {
+    width: 750px;
+}
+}
+@media (min-width: 992px) {
+.container {
+    width: 970px;
+}
+}
+@media (min-width: 1200px) {
+.container {
+    width: 1170px;
+}
+}
+.col-md-4{
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.dboperation{
+    align:center;
+    margin-top: 10%;
+    width: 65%;
+}
+
+.input-group{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.table{
+    width: 90%;
+    margin-left: 5%;
+}
