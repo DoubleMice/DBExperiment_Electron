@@ -170,6 +170,7 @@ ipc.on('subwin',function(event,subwin_name){
       width: 520, 
       height: 390,
       // frame:false,
+      titleBarStyle: 'hidden',
       show: false,
       parent: mainWindow, //win是主窗口
     });

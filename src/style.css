@@ -3,6 +3,7 @@ body {
     /* display: table; */
     background-color: azure;
     -webkit-app-region: drag;
+    -webkit-user-select: none;
 }
 
 .btn-primary {
