@@ -54,7 +54,7 @@ const menuTemplate = [
 
 if (process.platform === 'darwin') {
     ...
-    //定义osx上的菜单
+    //定义osx上的菜单
 }
 
 const menu = Menu.buildFromTemplate(menuTemplate);
